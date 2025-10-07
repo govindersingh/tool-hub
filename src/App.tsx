@@ -41,7 +41,7 @@ function App() {
       setFavorites(JSON.parse(savedFavorites));
     }
 
-    fetch('/tools.json')
+    fetch(`/api/tools`)
       .then(response => response.json())
       .then(data => {
         const activeTools = data.filter((tool: Tool) => tool.active);
