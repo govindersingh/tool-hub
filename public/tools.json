@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "name": "Loan Calculator",
+    "description": "Calculate your loan EMI, total interest, and repayment schedule with ease",
+    "url": "https://www.calculator.net/loan-calculator.html",
+    "category": "Finance",
+    "icon": "calculator",
+    "featured": true,
+    "popular": true,
+    "usageCount": 15420
+  },
+  {
+    "id": 2,
+    "name": "GST Calculator",
+    "description": "Calculate GST inclusive and exclusive prices instantly",
+    "url": "https://www.calculator.net/gst-calculator.html",
+    "category": "Finance",
+    "icon": "percent",
+    "featured": true,
+    "popular": true,
+    "usageCount": 12350
+  },
+  {
+    "id": 3,
+    "name": "Mortgage Calculator",
+    "description": "Plan your home loan with detailed mortgage calculations and amortization schedules",
+    "url": "https://www.calculator.net/mortgage-calculator.html",
+    "category": "Finance",
+    "icon": "home",
+    "featured": false,
+    "popular": true,
+    "usageCount": 9870
+  },
+  {
+    "id": 4,
+    "name": "BMI Calculator",
+    "description": "Calculate your Body Mass Index and get health recommendations",
+    "url": "https://www.calculator.net/bmi-calculator.html",
+    "category": "Health",
+    "icon": "heart",
+    "featured": false,
+    "popular": true,
+    "usageCount": 8540
+  },
+  {
+    "id": 5,
+    "name": "Currency Converter",
+    "description": "Convert between different currencies with real-time exchange rates",
+    "url": "https://www.xe.com/currencyconverter/",
+    "category": "Finance",
+    "icon": "dollar-sign",
+    "featured": true,
+    "popular": false,
+    "usageCount": 7230
+  },
+  {
+    "id": 6,
+    "name": "Age Calculator",
+    "description": "Calculate your exact age in years, months, days, and even seconds",
+    "url": "https://www.calculator.net/age-calculator.html",
+    "category": "Utility",
+    "icon": "calendar",
+    "featured": false,
+    "popular": false,
+    "usageCount": 6100
+  },
+  {
+    "id": 7,
+    "name": "Percentage Calculator",
+    "description": "Quickly calculate percentages, percentage increase, and decrease",
+    "url": "https://www.calculator.net/percent-calculator.html",
+    "category": "Math",
+    "icon": "percent",
+    "featured": false,
+    "popular": true,
+    "usageCount": 5890
+  },
+  {
+    "id": 8,
+    "name": "Tip Calculator",
+    "description": "Calculate tips and split bills easily with customizable percentages",
+    "url": "https://www.calculator.net/tip-calculator.html",
+    "category": "Finance",
+    "icon": "receipt",
+    "featured": false,
+    "popular": false,
+    "usageCount": 4670
+  },
+  {
+    "id": 9,
+    "name": "Calorie Calculator",
+    "description": "Calculate daily calorie needs based on your activity level and goals",
+    "url": "https://www.calculator.net/calorie-calculator.html",
+    "category": "Health",
+    "icon": "apple",
+    "featured": false,
+    "popular": true,
+    "usageCount": 4320
+  },
+  {
+    "id": 10,
+    "name": "Date Calculator",
+    "description": "Calculate the difference between dates or add/subtract days from a date",
+    "url": "https://www.calculator.net/date-calculator.html",
+    "category": "Utility",
+    "icon": "clock",
+    "featured": false,
+    "popular": false,
+    "usageCount": 3890
+  }
+]
