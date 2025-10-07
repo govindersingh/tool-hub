@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   Search, Calculator, Percent, ExternalLink, Home, Heart,
   DollarSign, Calendar, Receipt, Apple, Clock, Moon, Sun,
-  TrendingUp, Star, Flame, ChevronUp, X
+  TrendingUp, Flame, ChevronUp, X
 } from 'lucide-react';
 
 interface Tool {
@@ -15,6 +15,7 @@ interface Tool {
   featured?: boolean;
   popular?: boolean;
   usageCount?: number;
+  active?: boolean;
 }
 
 function App() {
@@ -43,8 +44,9 @@ function App() {
     fetch('/tools.json')
       .then(response => response.json())
       .then(data => {
-        setTools(data);
-        setFilteredTools(data);
+        const activeTools = data.filter((tool: Tool) => tool.active);
+        setTools(activeTools);
+        setFilteredTools(activeTools);
         setIsLoading(false);
       })
       .catch(error => {
@@ -123,7 +125,7 @@ function App() {
   };
 
   const categories = ['All', ...Array.from(new Set(tools.map(tool => tool.category)))];
-  const featuredTools = tools.filter(tool => tool.featured);
+  // const featuredTools = tools.filter(tool => tool.featured);
   const totalUsage = tools.reduce((sum, tool) => sum + (tool.usageCount || 0), 0);
 
   const AdBlock = ({ position, size = 'normal' }: { position: string; size?: 'hero' | 'normal' | 'sidebar' }) => (
@@ -171,128 +173,34 @@ function App() {
 
       <div className="relative max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-4">
-          <h1 className={`text-3xl sm:text-4xl font-bold bg-gradient-to-r ${
-            darkMode
-              ? 'from-blue-400 via-sky-400 to-cyan-400'
-              : 'from-blue-600 via-sky-600 to-cyan-600'
-          } bg-clip-text text-transparent animate-gradient`}>
-            Free Online Tools
-          </h1>
-          <button
-            onClick={toggleDarkMode}
-            className={`p-2.5 rounded-lg transition-all duration-300 ${
-              darkMode
-                ? 'bg-slate-700 text-yellow-400 hover:bg-slate-600'
-                : 'bg-white text-slate-700 hover:bg-slate-100'
-            } shadow-lg hover:shadow-xl hover:scale-110`}
-            aria-label="Toggle dark mode"
-          >
-            {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
+          <div className={`${
+              darkMode ? 'bg-slate-800/50' : 'bg-white/80'
+            }  flex items-center gap-2 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-md border ${
+              darkMode ? 'border-slate-700' : 'border-slate-200'
+            }`}>
+              <span className={`text-sm font-bold ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>{tools.length} Tools</span>
+              <span className={`${darkMode ? 'text-green-600' : 'text-green-300'}`}>•</span>
+              <span className={`text-sm font-bold ${darkMode ? 'text-sky-300' : 'text-sky-700'}`}>{totalUsage.toLocaleString()} Uses</span>
+            </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleDarkMode}
+              className={`p-2.5 rounded-lg transition-all duration-300 ${
+                darkMode
+                  ? 'bg-slate-700 text-yellow-400 hover:bg-slate-600'
+                  : 'bg-white text-slate-700 hover:bg-slate-100'
+              } shadow-lg hover:shadow-xl hover:scale-110`}
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
 
-        <AdBlock position="Hero Banner - Premium Top Placement" size="hero" />
+        {/* <AdBlock position="Hero Banner - Premium Top Placement" size="hero" /> */}
 
         <div className="lg:flex lg:gap-6">
           <div className="lg:w-3/4">
-            <div className="flex flex-wrap justify-center gap-3 mb-4">
-              <div className={`${
-                darkMode ? 'bg-slate-800/50' : 'bg-white/80'
-              } backdrop-blur-sm rounded-lg px-4 py-2 shadow-md border ${
-                darkMode ? 'border-slate-700' : 'border-slate-200'
-              }`}>
-                <div className={`text-xl font-bold ${
-                  darkMode ? 'text-blue-400' : 'text-blue-600'
-                }`}>{tools.length}</div>
-                <div className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>Total Tools</div>
-              </div>
-              <div className={`${
-                darkMode ? 'bg-slate-800/50' : 'bg-white/80'
-              } backdrop-blur-sm rounded-lg px-4 py-2 shadow-md border ${
-                darkMode ? 'border-slate-700' : 'border-slate-200'
-              }`}>
-                <div className={`text-xl font-bold ${
-                  darkMode ? 'text-sky-400' : 'text-sky-600'
-                }`}>{totalUsage.toLocaleString()}+</div>
-                <div className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>Total Uses</div>
-              </div>
-            </div>
-
-            {featuredTools.length > 0 && (
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <Star className={`w-5 h-5 ${darkMode ? 'text-yellow-400' : 'text-yellow-500'}`} />
-                  <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
-                    Featured Tools
-                  </h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  {featuredTools.map((tool) => (
-                    <a
-                      key={tool.id}
-                      href={tool.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`group relative ${
-                        darkMode ? 'bg-slate-800/50' : 'bg-white/90'
-                      } backdrop-blur-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-4 border-2 ${
-                        darkMode ? 'border-slate-700 hover:border-sky-500' : 'border-slate-200 hover:border-sky-400'
-                      } hover:-translate-y-1 overflow-hidden`}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                      <div className="relative">
-                        <div className="flex items-start justify-between mb-3">
-                          <div className={`p-2 ${
-                            darkMode ? 'bg-sky-500/20' : 'bg-sky-50'
-                          } rounded-lg ${
-                            darkMode ? 'text-sky-400' : 'text-sky-600'
-                          } group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                            {getIcon(tool.icon, "w-6 h-6")}
-                          </div>
-                          <div className="flex gap-1">
-                            <button
-                              onClick={(e) => toggleFavorite(tool.id, e)}
-                              className={`p-1.5 rounded-lg transition-all duration-300 ${
-                                favorites.includes(tool.id)
-                                  ? 'text-red-500 scale-110'
-                                  : darkMode ? 'text-slate-400 hover:text-red-400' : 'text-slate-400 hover:text-red-500'
-                              }`}
-                            >
-                              <Heart className={`w-4 h-4 ${favorites.includes(tool.id) ? 'fill-current' : ''}`} />
-                            </button>
-                            <ExternalLink className={`w-4 h-4 ${
-                              darkMode ? 'text-slate-400 group-hover:text-sky-400' : 'text-slate-400 group-hover:text-sky-600'
-                            } transition-colors duration-300`} />
-                          </div>
-                        </div>
-                        <h3 className={`text-lg font-bold ${
-                          darkMode ? 'text-white group-hover:text-sky-400' : 'text-slate-900 group-hover:text-sky-600'
-                        } mb-1.5 transition-colors duration-300`}>
-                          {tool.name}
-                        </h3>
-                        <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} text-sm mb-2 line-clamp-2`}>
-                          {tool.description}
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <span className={`inline-block px-2.5 py-0.5 ${
-                            darkMode ? 'bg-slate-700 text-slate-300' : 'bg-slate-100 text-slate-700'
-                          } text-xs rounded-full font-medium`}>
-                            {tool.category}
-                          </span>
-                          {tool.popular && (
-                            <span className="flex items-center gap-1 text-orange-500 text-xs font-medium">
-                              <Flame className="w-3 h-3" />
-                              Popular
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
 
             <div className="my-4 space-y-3">
               <div className="relative">
@@ -345,6 +253,7 @@ function App() {
                   </button>
                 ))}
               </div>
+              <AdBlock position="Inline Small Ad" />
             </div>
 
             {filteredTools.length === 0 && searchQuery && !isLoading && (
@@ -366,9 +275,9 @@ function App() {
               </div>
             ) : (
               <>
-                {Array.from({ length: Math.ceil(filteredTools.length / 3) }).map((_, chunkIndex) => {
-                  const startIndex = chunkIndex * 3;
-                  const endIndex = startIndex + 3;
+                {Array.from({ length: Math.ceil(filteredTools.length / 4) }).map((_, chunkIndex) => {
+                  const startIndex = chunkIndex * 4;
+                  const endIndex = startIndex + 4;
                   const toolsChunk = filteredTools.slice(startIndex, endIndex);
 
                   return (
@@ -408,9 +317,15 @@ function App() {
                                   >
                                     <Heart className={`w-4 h-4 ${favorites.includes(tool.id) ? 'fill-current' : ''}`} />
                                   </button>
+                                  <div className={`p-1.5 rounded-lg transition-all duration-300 ${
+                                      favorites.includes(tool.id)
+                                        ? 'text-red-500 scale-110'
+                                        : darkMode ? 'text-slate-400 hover:text-red-400' : 'text-slate-400 hover:text-red-500'
+                                    }`}>
                                   <ExternalLink className={`w-4 h-4 ${
                                     darkMode ? 'text-slate-400 group-hover:text-blue-400' : 'text-slate-400 group-hover:text-blue-600'
                                   } transition-colors duration-300`} />
+                                  </div>
                                 </div>
                               </div>
                               <h3 className={`text-lg font-bold ${
@@ -462,47 +377,6 @@ function App() {
               } backdrop-blur-lg rounded-xl shadow-lg p-4 border ${
                 darkMode ? 'border-slate-700' : 'border-slate-200'
               }`}>
-                <h3 className={`text-base font-bold mb-3 ${
-                  darkMode ? 'text-white' : 'text-slate-900'
-                }`}>Quick Categories</h3>
-                <div className="space-y-2">
-                  {categories.slice(1).map(category => {
-                    const categoryCount = tools.filter(t => t.category === category).length;
-                    return (
-                      <button
-                        key={category}
-                        onClick={() => setSelectedCategory(category)}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-300 ${
-                          selectedCategory === category
-                            ? darkMode
-                              ? 'bg-sky-500/20 text-sky-400'
-                              : 'bg-sky-50 text-sky-600'
-                            : darkMode
-                              ? 'hover:bg-slate-700/50 text-slate-300'
-                              : 'hover:bg-slate-50 text-slate-700'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">{category}</span>
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${
-                            selectedCategory === category
-                              ? darkMode ? 'bg-sky-500/30' : 'bg-sky-100'
-                              : darkMode ? 'bg-slate-700' : 'bg-slate-100'
-                          }`}>{categoryCount}</span>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <AdBlock position="Sidebar Ad 2" size="sidebar" />
-
-              <div className={`${
-                darkMode ? 'bg-slate-800/50' : 'bg-white/90'
-              } backdrop-blur-lg rounded-xl shadow-lg p-4 border ${
-                darkMode ? 'border-slate-700' : 'border-slate-200'
-              }`}>
                 <div className="flex items-center gap-2 mb-3">
                   <Flame className={`w-5 h-5 ${darkMode ? 'text-orange-400' : 'text-orange-500'}`} />
                   <h3 className={`text-base font-bold ${
@@ -548,7 +422,8 @@ function App() {
                 </div>
               </div>
 
-              <AdBlock position="Sidebar Ad 3" size="sidebar" />
+              <AdBlock position="Sidebar Ad 2" size="sidebar" />
+              {/* <AdBlock position="Sidebar Ad 3" size="sidebar" /> */}
             </div>
           </aside>
         </div>
@@ -556,7 +431,7 @@ function App() {
         <AdBlock position="Bottom Banner - Last Ad Before Footer" />
 
         <footer className={`mt-6 text-center ${darkMode ? 'text-slate-400' : 'text-slate-500'} text-sm`}>
-          <p>&copy; {new Date().getFullYear()} Free Online Tools. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Free Tools. All rights reserved.</p>
         </footer>
       </div>
 
