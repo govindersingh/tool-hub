@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Calculator, DollarSign, TrendingUp, Clock } from 'lucide-react';
+import AdBlock from '../components/AdBlock';
 
 const LoanCalculator: React.FC = () => {
-  const [principal, setPrincipal] = useState<number>(10000);
-  const [interestRate, setInterestRate] = useState<number>(5);
+  const [principal, setPrincipal] = useState<number>(25000);
+  const [interestRate, setInterestRate] = useState<number>(6.5);
   const [years, setYears] = useState<number>(5);
 
   const calculateMonthlyPayment = () => {
@@ -18,110 +20,178 @@ const LoanCalculator: React.FC = () => {
   const monthlyPayment = calculateMonthlyPayment();
   const totalPayment = monthlyPayment * years * 12;
   const totalInterest = totalPayment - principal;
+  const totalMonths = years * 12;
 
   return (
-    <div className="
-      max-w-md mx-auto bg-white/90 dark:bg-slate-800/80
-      backdrop-blur-lg rounded-xl shadow-lg p-6 border
-      border-slate-200 dark:border-slate-700
-      transition-colors duration-500
-    ">
-      <div className="mb-4 text-center">
-        <div className="
-          mx-auto mb-3 bg-blue-50 dark:bg-blue-500/20
-          rounded-full flex items-center justify-center
-          w-16 h-16
-        ">
-          {/* Calculator icon as per your App.tsx */}
-          <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <rect x="4" y="3" width="16" height="18" rx="2" />
-            <rect x="8" y="6" width="8" height="2" rx="1" />
-            <rect x="8" y="10" width="2" height="2" rx="0.5" />
-            <rect x="8" y="14" width="2" height="2" rx="0.5" />
-            <rect x="12" y="10" width="2" height="2" rx="0.5" />
-            <rect x="12" y="14" width="2" height="2" rx="0.5" />
-          </svg>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-12 px-4 transition-colors duration-500">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-600 rounded-2xl shadow-lg mb-4">
+            <Calculator className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">
+            Loan Calculator
+          </h1>
+          <p className="text-lg text-slate-600 dark:text-slate-300">
+            Calculate your monthly payments and plan your finances
+          </p>
         </div>
-        <h2 className="text-2xl font-bold mb-1 text-slate-900 dark:text-white">Loan Calculator</h2>
-        <p className="text-sky-700 dark:text-sky-300 text-sm font-medium">Calculate monthly loan payments</p>
-      </div>
 
-      <form className="space-y-3">
-        <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-            Loan Amount ($)
-          </label>
-          <input
-            type="number"
-            value={principal}
-            onChange={e => setPrincipal(Number(e.target.value))}
-            className="
-              w-full px-3 py-2 rounded-lg border-2
-              border-slate-200 dark:border-slate-700
-              bg-white/80 dark:bg-slate-800/50
-              focus:outline-none focus:ring-2 focus:ring-sky-500
-              transition-all shadow-sm
-              text-slate-900 dark:text-white
-            "
-            min={0}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-            Interest Rate (% per year)
-          </label>
-          <input
-            type="number"
-            value={interestRate}
-            onChange={e => setInterestRate(Number(e.target.value))}
-            className="
-              w-full px-3 py-2 rounded-lg border-2
-              border-slate-200 dark:border-slate-700
-              bg-white/80 dark:bg-slate-800/50
-              focus:outline-none focus:ring-2 focus:ring-sky-500
-              transition-all shadow-sm
-              text-slate-900 dark:text-white
-            "
-            min={0}
-            step={0.01}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-            Loan Term (years)
-          </label>
-          <input
-            type="number"
-            value={years}
-            onChange={e => setYears(Number(e.target.value))}
-            className="
-              w-full px-3 py-2 rounded-lg border-2
-              border-slate-200 dark:border-slate-700
-              bg-white/80 dark:bg-slate-800/50
-              focus:outline-none focus:ring-2 focus:ring-sky-500
-              transition-all shadow-sm
-              text-slate-900 dark:text-white
-            "
-            min={1}
-          />
-        </div>
-      </form>
+        <AdBlock position="Top Banner" size="hero" />
 
-      <hr className="my-5 border-sky-200 dark:border-slate-600" />
+        <div className="grid lg:grid-cols-3 gap-8 mt-8">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-slate-200 dark:border-slate-700 transition-all duration-500">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                <DollarSign className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                Loan Details
+              </h2>
 
-      <div className="space-y-2 text-base">
-        <div className="flex items-center justify-between">
-          <span className="font-semibold text-slate-700 dark:text-slate-300">Monthly Payment:</span>
-          <span className="text-sky-700 dark:text-blue-300 font-bold">${monthlyPayment.toFixed(2)}</span>
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                    Loan Amount
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 font-semibold">$</span>
+                    <input
+                      type="number"
+                      value={principal}
+                      onChange={e => setPrincipal(Number(e.target.value))}
+                      className="w-full pl-8 pr-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900 dark:text-white font-semibold text-lg"
+                      min={0}
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="1000"
+                    max="500000"
+                    step="1000"
+                    value={principal}
+                    onChange={e => setPrincipal(Number(e.target.value))}
+                    className="w-full mt-3 accent-blue-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                    Annual Interest Rate
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      value={interestRate}
+                      onChange={e => setInterestRate(Number(e.target.value))}
+                      className="w-full pl-4 pr-10 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900 dark:text-white font-semibold text-lg"
+                      min={0}
+                      step={0.1}
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 font-semibold">%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="20"
+                    step="0.1"
+                    value={interestRate}
+                    onChange={e => setInterestRate(Number(e.target.value))}
+                    className="w-full mt-3 accent-blue-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                    Loan Term
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      value={years}
+                      onChange={e => setYears(Number(e.target.value))}
+                      className="w-full pl-4 pr-20 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900 dark:text-white font-semibold text-lg"
+                      min={1}
+                      max={30}
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 font-semibold">years</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="30"
+                    step="1"
+                    value={years}
+                    onChange={e => setYears(Number(e.target.value))}
+                    className="w-full mt-3 accent-blue-600"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-600 to-sky-600 rounded-2xl shadow-xl p-8 text-white">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <TrendingUp className="w-6 h-6" />
+                Payment Breakdown
+              </h2>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                  <div className="text-white/80 text-sm font-medium mb-2">Monthly Payment</div>
+                  <div className="text-3xl font-bold">${monthlyPayment.toFixed(2)}</div>
+                  <div className="text-white/70 text-xs mt-2">for {totalMonths} months</div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                  <div className="text-white/80 text-sm font-medium mb-2">Total Interest</div>
+                  <div className="text-3xl font-bold">${totalInterest.toFixed(2)}</div>
+                  <div className="text-white/70 text-xs mt-2">{((totalInterest / principal) * 100).toFixed(1)}% of principal</div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                  <div className="text-white/80 text-sm font-medium mb-2">Total Payment</div>
+                  <div className="text-3xl font-bold">${totalPayment.toFixed(2)}</div>
+                  <div className="text-white/70 text-xs mt-2">over {years} years</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-1 space-y-6">
+            <AdBlock position="Sidebar - Top" size="sidebar" />
+
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-500">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                Summary
+              </h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-700">
+                  <span className="text-slate-600 dark:text-slate-400">Loan Amount</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">${principal.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-700">
+                  <span className="text-slate-600 dark:text-slate-400">Interest Rate</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{interestRate}%</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-700">
+                  <span className="text-slate-600 dark:text-slate-400">Term</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{years} years</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-700">
+                  <span className="text-slate-600 dark:text-slate-400">Total Months</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{totalMonths}</span>
+                </div>
+                <div className="flex justify-between items-center py-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 mt-4">
+                  <span className="text-blue-900 dark:text-blue-300 font-medium">Monthly Payment</span>
+                  <span className="font-bold text-lg text-blue-600 dark:text-blue-400">${monthlyPayment.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+
+            <AdBlock position="Sidebar - Bottom" size="sidebar" />
+          </div>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="font-semibold text-slate-700 dark:text-slate-300">Total Interest:</span>
-          <span className="text-orange-500 font-bold">${totalInterest.toFixed(2)}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="font-semibold text-slate-700 dark:text-slate-300">Total Payment:</span>
-          <span className="text-green-600 dark:text-green-300 font-bold">${totalPayment.toFixed(2)}</span>
-        </div>
+
+        <AdBlock position="Bottom Banner" />
       </div>
     </div>
   );
