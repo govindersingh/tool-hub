@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import {
   Search, Calculator, Percent, ExternalLink, Home, Heart,
   DollarSign, Calendar, Receipt, Apple, Clock, Moon, Sun,
-  TrendingUp, Flame, ChevronUp, X
+  Flame, ChevronUp, X
 } from 'lucide-react';
+import AdBlock from './components/AdBlock';
 
 interface Tool {
   id: number;
@@ -128,28 +129,6 @@ function App() {
   // const featuredTools = tools.filter(tool => tool.featured);
   const totalUsage = tools.reduce((sum, tool) => sum + (tool.usageCount || 0), 0);
 
-  const AdBlock = ({ position, size = 'normal' }: { position: string; size?: 'hero' | 'normal' | 'sidebar' }) => (
-    <div className={`bg-gradient-to-r from-sky-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 border-2 border-dashed border-sky-300 dark:border-slate-600 rounded-xl flex items-center justify-center backdrop-blur-sm transition-all duration-500 hover:border-sky-400 dark:hover:border-slate-500 group ${
-      size === 'hero' ? 'p-12 my-4' : size === 'sidebar' ? 'p-6 my-4' : 'p-8 my-6'
-    } w-full`}>
-      <div className="text-center">
-        <div className={`mx-auto mb-3 bg-sky-100 dark:bg-slate-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ${
-          size === 'hero' ? 'w-20 h-20' : size === 'sidebar' ? 'w-12 h-12' : 'w-16 h-16'
-        }`}>
-          <TrendingUp className={`text-sky-600 dark:text-slate-300 ${
-            size === 'hero' ? 'w-10 h-10' : size === 'sidebar' ? 'w-6 h-6' : 'w-8 h-8'
-          }`} />
-        </div>
-        <p className={`text-sky-700 dark:text-slate-300 font-semibold ${
-          size === 'hero' ? 'text-2xl' : size === 'sidebar' ? 'text-sm' : 'text-lg'
-        }`}>Google AdSense Ad Block</p>
-        <p className={`text-sky-600 dark:text-slate-400 mt-1 ${
-          size === 'hero' ? 'text-base' : 'text-sm'
-        }`}>{position}</p>
-      </div>
-    </div>
-  );
-
   const SkeletonCard = () => (
     <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-slate-200 dark:border-slate-700 animate-pulse">
       <div className="flex items-start justify-between mb-3">
@@ -197,7 +176,7 @@ function App() {
           </div>
         </div>
 
-        {/* <AdBlock position="Hero Banner - Premium Top Placement" size="hero" /> */}
+        {/* <AdBlock position="Hero Banner - Premium Top Placemen" /> */}
 
         <div className="lg:flex lg:gap-6">
           <div className="lg:w-3/4">
@@ -253,7 +232,7 @@ function App() {
                   </button>
                 ))}
               </div>
-              <AdBlock position="Inline Small Ad" />
+              {/* <AdBlock position="Inline Small Ad" /> */}
             </div>
 
             {filteredTools.length === 0 && searchQuery && !isLoading && (
@@ -281,7 +260,7 @@ function App() {
                   const toolsChunk = filteredTools.slice(startIndex, endIndex);
 
                   return (
-                    <div key={chunkIndex}>
+                    <div key={chunkIndex} className="my-4 space-y-3">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {toolsChunk.map((tool) => (
                           <a
@@ -358,9 +337,9 @@ function App() {
                         ))}
                       </div>
 
-                      {endIndex < filteredTools.length && (
+                      {/* {endIndex < filteredTools.length && (
                         <AdBlock position={`In-Feed Ad ${chunkIndex + 1}`} />
-                      )}
+                      )} */}
                     </div>
                   );
                 })}
@@ -428,7 +407,7 @@ function App() {
           </aside>
         </div>
 
-        <AdBlock position="Bottom Banner - Last Ad Before Footer" />
+        {/* <AdBlock position="Bottom Banner - Last Ad Before Footer" /> */}
 
         <footer className={`mt-6 text-center ${darkMode ? 'text-slate-400' : 'text-slate-500'} text-sm`}>
           <p>&copy; {new Date().getFullYear()} Free Tools. All rights reserved.</p>
