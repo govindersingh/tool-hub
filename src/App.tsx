@@ -5,6 +5,7 @@ import {
   Flame, ChevronUp, X
 } from 'lucide-react';
 import AdBlock from './components/AdBlock';
+import SEO from './components/SEO';
 
 interface Tool {
   id: number;
@@ -142,15 +143,36 @@ function App() {
     </div>
   );
 
-  return (
-    <div className={`min-h-screen transition-colors duration-500 ${
-      darkMode
-        ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
-        : 'bg-gradient-to-br from-sky-50 via-white to-blue-50'
-    }`}>
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-sky-500/5 pointer-events-none"></div>
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Free Tools",
+    "description": "Free online calculators, converters, and utilities for everyday use",
+    "url": "https://freetools.example.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://freetools.example.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
 
-      <div className="relative max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+  return (
+    <>
+      <SEO
+        title="Free Online Tools - Calculators, Converters & Utilities | Free Tools"
+        description="Access a comprehensive collection of free online calculators, converters, and utilities. Calculate loans, convert units, and simplify daily tasks with powerful, easy-to-use tools."
+        keywords="free tools, online calculator, loan calculator, converters, utilities, financial tools, free calculators, percentage calculator, time calculator"
+        canonical="https://freetools.example.com/"
+        structuredData={structuredData}
+      />
+      <div className={`min-h-screen transition-colors duration-500 ${
+        darkMode
+          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
+          : 'bg-gradient-to-br from-sky-50 via-white to-blue-50'
+      }`}>
+        <div className="fixed inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-sky-500/5 pointer-events-none"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8" role="main">
         <div className="flex justify-between items-center mb-4">
           <div className={`${
               darkMode ? 'bg-slate-800/50' : 'bg-white/80'
@@ -185,12 +207,13 @@ function App() {
               <div className="relative">
                 <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
                   darkMode ? 'text-slate-400' : 'text-slate-400'
-                } w-5 h-5`} />
+                } w-5 h-5`} aria-hidden="true" />
                 <input
-                  type="text"
+                  type="search"
                   placeholder="Search tools..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  aria-label="Search for tools"
                   className={`w-full pl-11 pr-11 py-2.5 ${
                     darkMode
                       ? 'bg-slate-800/50 border-slate-700 text-white placeholder-slate-400'
@@ -200,20 +223,22 @@ function App() {
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
+                    aria-label="Clear search"
                     className={`absolute right-3 top-1/2 transform -translate-y-1/2 ${
                       darkMode ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-600'
                     } transition-colors`}
                   >
-                    <X className="w-5 h-5" />
+                    <X className="w-5 h-5" aria-hidden="true" />
                   </button>
                 )}
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <nav className="flex flex-wrap gap-2" role="navigation" aria-label="Category filter">
                 {categories.map(category => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
+                    aria-pressed={selectedCategory === category}
                     className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-all duration-300 ${
                       selectedCategory === category
                         ? darkMode
@@ -231,7 +256,7 @@ function App() {
                     {category}
                   </button>
                 ))}
-              </div>
+              </nav>
               {/* <AdBlock position="Inline Small Ad" /> */}
             </div>
 
@@ -263,11 +288,8 @@ function App() {
                     <div key={chunkIndex} className="my-4 space-y-3">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {toolsChunk.map((tool) => (
-                          <a
+                          <article
                             key={tool.id}
-                            href={tool.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             className={`group relative ${
                               darkMode ? 'bg-slate-800/50' : 'bg-white/90'
                             } backdrop-blur-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-4 border ${
@@ -333,7 +355,7 @@ function App() {
                                 </div>
                               )}
                             </div>
-                          </a>
+                          </article>
                         ))}
                       </div>
 
@@ -409,7 +431,7 @@ function App() {
 
         {/* <AdBlock position="Bottom Banner - Last Ad Before Footer" /> */}
 
-        <footer className={`mt-6 text-center ${darkMode ? 'text-slate-400' : 'text-slate-500'} text-sm`}>
+        <footer className={`mt-6 text-center ${darkMode ? 'text-slate-400' : 'text-slate-500'} text-sm`} role="contentinfo">
           <p>&copy; {new Date().getFullYear()} Free Tools. All rights reserved.</p>
         </footer>
       </div>
@@ -422,10 +444,11 @@ function App() {
           } rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-50`}
           aria-label="Scroll to top"
         >
-          <ChevronUp className="w-5 h-5" />
+          <ChevronUp className="w-5 h-5" aria-hidden="true" />
         </button>
       )}
     </div>
+    </>
   );
 }
 
